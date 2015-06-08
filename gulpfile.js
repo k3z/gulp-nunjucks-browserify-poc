@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     data = require('gulp-data'),
     watch = require('gulp-watch'),
     connect = require('gulp-connect'),
+    livereload = require('gulp-livereload'),
     browserify = require('browserify'),
     sourceStream = require('vinyl-source-stream'),
     rename = require('gulp-rename'),
@@ -29,7 +30,7 @@ gulp.task('content', function () {
         .pipe(data(getDataForFile))
         .pipe(nunjucks())
         .pipe(gulp.dest(build))
-        .pipe(connect.reload());
+        .pipe(livereload());
 });
 
 // Compile less
@@ -37,7 +38,7 @@ gulp.task('styles', function () {
     gulp.src(src + 'less/style.less')
         .pipe(less()) // Compile LESS
         .pipe(gulp.dest(build + 'css'))
-        .pipe(connect.reload());
+        .pipe(livereload());
 });
 
 // Concat dependencies and copy resouces files
@@ -78,14 +79,15 @@ gulp.task('scripts', function() {
     bundleStream
         .pipe(sourceStream('app.js'))
         .pipe(gulp.dest(build + 'js'))
-        .pipe(connect.reload());
+        .pipe(livereload());
 });
 
 // Trigger tasks when file is touched
 gulp.task('watchers', function () {
-  gulp.watch([src + '*.{html,nunj}', store + '*.json'], ['content']);
-  gulp.watch([src + 'less/*.less'], ['styles']);
-  gulp.watch([src + 'js/*.{js,css}'], ['scripts']);
+    livereload.listen();
+    gulp.watch([src + '*.{html,nunj}', store + '*.json'], ['content']);
+    gulp.watch([src + 'less/*.less'], ['styles']);
+    gulp.watch([src + 'js/*.{js,css}'], ['scripts']);
 });
 
 // Local server to preview result
@@ -94,7 +96,7 @@ gulp.task('server', function() {
         host: '127.0.0.1',
         port: 8888,
         root: build,
-        livereload: true
+        livereload: false
     });
 });
 

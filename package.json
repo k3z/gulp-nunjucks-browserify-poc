@@ -15,6 +15,7 @@
     "connect": "^3.3.5",
     "connect-livereload": "^0.5.3",
     "gulp": "^3.8.10",
+    "gulp-livereload": "^3.8.0",
     "gulp-browserify": "^0.5.1",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.5.2",
