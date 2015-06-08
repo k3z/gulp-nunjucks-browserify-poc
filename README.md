@@ -23,6 +23,11 @@
     $ npm install
 
 
+## Issues
+
+- JSON data is cached and is not reloaded during watch process.
+
+
 ##Generate site
 
 ###Activate local server and build site
