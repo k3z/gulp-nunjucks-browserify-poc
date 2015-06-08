@@ -105,13 +105,13 @@ function getDataForFile(file){
     var globals = null;
     var globals_json = store + 'globals.json';
     if(fs.existsSync(globals_json)) {
-        globals = require(globals_json);
+        globals = JSON.parse(fs.readFileSync(globals_json, "utf8"));
     }
 
     var context = null
     var context_json = store + path.basename(file.path.replace('.html', '.json'));
     if(fs.existsSync(context_json)) {
-        context = require(context_json);
+        context = JSON.parse(fs.readFileSync(context_json, "utf8"));
     }
 
     return {

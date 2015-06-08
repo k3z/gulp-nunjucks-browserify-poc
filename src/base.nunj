@@ -26,7 +26,7 @@
         <div class="jumbotron">
           <div class="container">
             <h1>
-                {{ context.title }}++
+                {{ context.title }}
             </h1>
             {% block content %}{% endblock %}
             <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
