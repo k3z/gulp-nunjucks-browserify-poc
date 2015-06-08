@@ -3,9 +3,9 @@
 ##Features
 
 - Templating thanks to [Nunjucks](https://mozilla.github.io/nunjucks/).
-- Custom data for templates thrue json files.
+- Custom data for templates in external json files.
 - Less compilation.
-- Dependencies handled with package.json and npm.
+- Client dependencies also handled with npm in package.json.
 - Import dependencies in your scripts with browserify and browserify-css.
 - Preview the resutls in real time in your browser thanks to gulp-watch and livereload.
 
@@ -13,7 +13,7 @@
 ##Requirements
 
 * [Node.js](https://nodejs.org/)
-* gulp
+* [gulp](http://gulpjs.com/)
 
 
 ##Install
