@@ -1,3 +1,6 @@
 {
-    "title": "Static site generator with gulp poc"
+    "title": "Gulp Nunjuck template",
+    "baseline": "author | function",
+    "description": "Portoflio of <author>, web-développeur in City, Country",
+    "copyrights": "2015 Company"
 }

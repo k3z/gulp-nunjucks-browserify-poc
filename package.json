@@ -1,4 +1,23 @@
 {
+  "name": "gulp-nunjucks-browserify-poc",
+  "version": "0.1.0",
+  "description": "A realy simple static site builder with gulp/browserify, less/js auto-compilation, nunjucks html templates and json metadatas.",
+  "author": "Olivier Kautz",
+  "license": "MIT License",
+  "contributors": [
+    {
+      "name": "Olivier Kautz",
+      "email": "olivier@k3z.fr"
+    },
+    {
+      "name": "Jérome Poslednik",
+      "email": "webmaster@washaweb.com"
+    },
+  ],
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/k3z/gulp-nunjucks-browserify-poc.git"
+  },
   "browserify": {
     "transform": [
       "browserify-css"
