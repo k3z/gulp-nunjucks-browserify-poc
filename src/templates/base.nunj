@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ globals.title }} - {{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+    {% block layout %}{% endblock %}
+
+    <script src="/js/app.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

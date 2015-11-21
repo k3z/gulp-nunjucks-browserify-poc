@@ -1,3 +1,14 @@
 {
-    "title": "Static site generator with gulp poc"
+    "title": "Static site generator",
+    "descritpion": "Static site generator with gulp, nunjucks, browserify poc",
+    "main_navigation": [
+      {
+        "title": "Context",
+        "url": "context.html"
+      },
+      {
+        "title": "Templating",
+        "url": "templating.html"
+      }
+    ]
 }

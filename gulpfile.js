@@ -22,15 +22,6 @@ var src = './src/';
 var build = './build/';
 var store = './datastore/';
 
-// watch all kinds off events occuring in assets dir (new, update, delete, rename)
-monocle.watchDirectory({
-  root: src + 'assets/',
-  listener: function(obj) {
-    gulp.start('assets')
-  },
-  complete: function() { console.log('done')}
-});
-
 //  Lauch options
 gulp.task('default', ['watch']);
 gulp.task('watch', ['content', 'assets', 'styles', 'scripts', 'watchers', 'server']);
@@ -45,6 +36,7 @@ gulp.task('content', function () {
         .pipe(livereload());
 });
 
+// Keep assets dir in sync
 gulp.task('assets', function() {
     return gulp.src(src + 'assets/')
       .pipe(dirSync(
@@ -53,6 +45,7 @@ gulp.task('assets', function() {
       .on('error', gutil.log);
   })
 
+
 // Compile less
 gulp.task('styles', function () {
     gulp.src(src + 'less/style.less')
@@ -60,6 +53,7 @@ gulp.task('styles', function () {
         .pipe(gulp.dest(build + 'css'))
         .pipe(livereload());
 });
+
 
 // Concat dependencies and copy resouces files
 gulp.task('scripts', function() {
@@ -102,13 +96,15 @@ gulp.task('scripts', function() {
         .pipe(livereload());
 });
 
+
 // Trigger tasks when file is touched
 gulp.task('watchers', function () {
     livereload.listen();
-    gulp.watch([src + '*.{html,nunj}', store + '*.json'], ['content']);
+    gulp.watch([src + '*.{html,nunj}', store + '*.json', src + 'templates/*.{html,nunj}'], ['content']);
     gulp.watch([src + 'less/*.less'], ['styles']);
     gulp.watch([src + 'js/*.{js,css}'], ['scripts']);
 });
+
 
 // Local server to preview result
 gulp.task('server', function() {
@@ -119,6 +115,17 @@ gulp.task('server', function() {
         livereload: true
     });
 });
+
+
+// watch all kinds off events occuring in assets dir (new, update, delete, rename)
+monocle.watchDirectory({
+  root: src + 'assets/',
+  listener: function(obj) {
+    gulp.start('assets')
+  },
+  complete: function() { console.log('done')}
+});
+
 
 // Load custom data for templates
 function getDataForFile(file){

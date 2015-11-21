@@ -1,0 +1,113 @@
+{% extends "templates/layout.nunj" %}
+{% set title = "Context variables" %}
+{% block content %}
+<div class="container">
+  <h1>
+      {{ title }}
+  </h1>
+  <p class="text-muted">
+    {{ context.description }}
+  </p>
+  <h2>Globals <small>User defined</small></h2>
+  <p>
+    Globals are defined in <code>/datastore/globals.json</code>
+  </p>
+  <h3 class="text-muted">Current globals available</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, value in globals %}
+      <tr>
+        <td>globals.{{ key }}</td>
+        <td>
+            {{ value }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h2>Contextual <small>User defined</small></h2>
+  <p>
+    Available only for current page and defined in <code>/datastore/</code>.
+    Json file must have the same name as the current file name.
+  </p>
+  <p>
+    <strong>Example : </strong>
+    If file name of page is <code>foobar.html</code>, the data container filename must be <code>/datastore/foobar.json</code>
+  </p>
+  <h3 class="text-muted">Current context variables available</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, value in context %}
+      <tr>
+        <td>context.{{ key }}</td>
+        <td>
+            {{ value }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h2>File <small>Vinyl object</small></h2>
+  <p>
+    Current vinyl object,
+    please refer to
+    <a href="https://github.com/gulpjs/vinyl">Vinyl Github project</a>
+    for complete references.
+  </p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key in ['relative', 'base', 'path', 'cwd', 'stat'] %}
+      <tr>
+        <td>file.{{ key }}</td>
+        <td>
+            {{ file[key] }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h2>Self defined in Nunjucks template</h2>
+  {% raw %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Code</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Set</td>
+        <td>
+          <code>
+            {% set title="Foo" %}
+          </code>
+        </td>
+        <td>
+          Please refer to <a href="https://mozilla.github.io/nunjucks/templating.html#set">Nunjcks documentation</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  {% endraw %}
+</div>
+{% endblock %}
