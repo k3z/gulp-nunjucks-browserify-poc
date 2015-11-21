@@ -1,0 +1,18 @@
+{
+  "carousel": {
+    "items": [
+      {
+        "img": "/assets/img/general_3.jpg",
+        "title": "Sample 1"
+      },
+      {
+        "img": "/assets/img/general_4.jpg",
+        "title": "Sample 2"
+      },
+      {
+        "img": "/assets/img/general_5.jpg",
+        "title": "Sample 3"
+      }
+    ]
+  }
+}

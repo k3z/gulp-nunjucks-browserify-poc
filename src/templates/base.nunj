@@ -29,8 +29,9 @@
 </head>
 <body>
     {% block layout %}{% endblock %}
-    
+
     <!-- js -->
     <script src="/js/app.js" type="text/javascript" charset="utf-8"></script>
+    {% block javascript %}{% endblock %}
 </body>
 </html>
