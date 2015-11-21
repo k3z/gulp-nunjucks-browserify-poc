@@ -1,6 +1,16 @@
 {
-    "title": "Gulp Nunjuck template",
-    "baseline": "author | function",
-    "description": "Portoflio of <author>, web-développeur in City, Country",
-    "copyrights": "2015 Company"
+    "title": "Static site generator",
+    "author": "author | function",
+    "copyrights": "2015 Company",
+    "description": "Static site generator with gulp, nunjucks, browserify poc",
+    "main_navigation": [
+      {
+        "title": "Context",
+        "url": "context.html"
+      },
+      {
+        "title": "Templating",
+        "url": "templating.html"
+      }
+    ]
 }

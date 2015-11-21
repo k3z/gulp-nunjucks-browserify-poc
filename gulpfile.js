@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     path = require('path');
+    dirSync = require( 'gulp-directory-sync' ),
     less = require('gulp-less'),
     nunjucks = require('gulp-nunjucks-render'),
     data = require('gulp-data'),
@@ -13,16 +14,18 @@ var gulp = require('gulp'),
     _ = require('underscore'),
     _.str = require('underscore.string'),
     fs = require('fs'),
-    fse = require('node-fs-extra');
+    fse = require('node-fs-extra'),
+    monocle = require('monocle')()
+
 
 var src = './src/';
 var build = './build/';
 var store = './datastore/';
 
 //  Lauch options
-gulp.task('default', ['content', 'styles', 'scripts', 'watchers', 'server']);
-gulp.task('watch', ['watchers', 'server']);
-gulp.task('build', ['content', 'styles', 'scripts']);
+gulp.task('default', ['watch']);
+gulp.task('watch', ['content', 'assets', 'styles', 'scripts', 'watchers', 'server']);
+gulp.task('build', ['content', 'assets', 'styles', 'scripts']);
 
 gulp.task('content', function () {
     nunjucks.nunjucks.configure([src]);
@@ -33,6 +36,16 @@ gulp.task('content', function () {
         .pipe(livereload());
 });
 
+// Keep assets dir in sync
+gulp.task('assets', function() {
+    return gulp.src(src + 'assets/')
+      .pipe(dirSync(
+        src + 'assets/', build + '/assets/', { printSummary: true } )
+      )
+      .on('error', gutil.log);
+  })
+
+
 // Compile less
 gulp.task('styles', function () {
     gulp.src(src + 'less/style.less')
@@ -40,6 +53,7 @@ gulp.task('styles', function () {
         .pipe(gulp.dest(build + 'css'))
         .pipe(livereload());
 });
+
 
 // Concat dependencies and copy resouces files
 gulp.task('scripts', function() {
@@ -82,13 +96,15 @@ gulp.task('scripts', function() {
         .pipe(livereload());
 });
 
+
 // Trigger tasks when file is touched
 gulp.task('watchers', function () {
     livereload.listen();
-    gulp.watch([src + '*.{html,nunj}', store + '*.json'], ['content']);
+    gulp.watch([src + '*.{html,nunj}', store + '*.json', src + 'templates/*.{html,nunj}'], ['content']);
     gulp.watch([src + 'less/*.less'], ['styles']);
     gulp.watch([src + 'js/*.{js,css}'], ['scripts']);
 });
+
 
 // Local server to preview result
 gulp.task('server', function() {
@@ -96,9 +112,20 @@ gulp.task('server', function() {
         host: '127.0.0.1',
         port: 8888,
         root: build,
-        livereload: false
+        livereload: true
     });
 });
+
+
+// watch all kinds off events occuring in assets dir (new, update, delete, rename)
+monocle.watchDirectory({
+  root: src + 'assets/',
+  listener: function(obj) {
+    gulp.start('assets')
+  },
+  complete: function() { console.log('done')}
+});
+
 
 // Load custom data for templates
 function getDataForFile(file){
