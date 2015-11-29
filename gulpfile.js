@@ -1,8 +1,11 @@
 var gulp = require('gulp'),
-    gutil = require('gulp-util'),
-    path = require('path');
-    dirSync = require( 'gulp-directory-sync' ),
+    path = require('path'),
     less = require('gulp-less'),
+    LessPluginCleanCSS = require('less-plugin-clean-css'),
+    LessPluginAutoPrefix = require('less-plugin-autoprefix'),
+    cleancss = new LessPluginCleanCSS({ advanced: true }),
+    autoprefix= new LessPluginAutoPrefix({ browsers: ["last 4 versions", 'ie 9'] }),
+    imagemin = require('gulp-imagemin');
     nunjucks = require('gulp-nunjucks-render'),
     data = require('gulp-data'),
     watch = require('gulp-watch'),
@@ -10,12 +13,12 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     browserify = require('browserify'),
     sourceStream = require('vinyl-source-stream'),
-    rename = require('gulp-rename'),
+    notify = require("gulp-notify") ;
+
     _ = require('underscore'),
     _.str = require('underscore.string'),
     fs = require('fs'),
-    fse = require('node-fs-extra'),
-    monocle = require('monocle')()
+    fse = require('node-fs-extra');
 
 
 var src = './src/';
@@ -36,24 +39,33 @@ gulp.task('content', function () {
         .pipe(livereload());
 });
 
-// Keep assets dir in sync
-gulp.task('assets', function() {
-    return gulp.src(src + 'assets/')
-      .pipe(dirSync(
-        src + 'assets/', build + '/assets/', { printSummary: true } )
-      )
-      .on('error', gutil.log);
-  })
-
-
-// Compile less
-gulp.task('styles', function () {
-    gulp.src(src + 'less/style.less')
-        .pipe(less()) // Compile LESS
-        .pipe(gulp.dest(build + 'css'))
-        .pipe(livereload());
+//copy and optimize images
+gulp.task('assets', function () {
+    return gulp.src(src + '/assets/**')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}]
+        }))
+        .pipe(gulp.dest(build + 'assets'))
+        .on("error", notify.onError(function (error) {
+            return "Error: " + error.message;
+         }))
 });
 
+//less compilation, autoprefixer and minify
+gulp.task('styles', function () {
+  return gulp.src(src + 'less/style.less')
+    .pipe(less({
+      compress: true,
+      plugins: [autoprefix],
+      paths: [ path.join(__dirname, 'less', 'includes') ]
+    })
+    .on("error", notify.onError(function (error) {
+         return "Error: " + error.message;
+     })))
+    .pipe(gulp.dest(build + 'css'))
+    .pipe(livereload());
+});
 
 // Concat dependencies and copy resouces files
 gulp.task('scripts', function() {
@@ -116,15 +128,6 @@ gulp.task('server', function() {
     });
 });
 
-
-// watch all kinds off events occuring in assets dir (new, update, delete, rename)
-monocle.watchDirectory({
-  root: src + 'assets/',
-  listener: function(obj) {
-    gulp.start('assets')
-  },
-  complete: function() { console.log('done')}
-});
 
 
 // Load custom data for templates

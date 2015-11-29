@@ -1,4 +1,30 @@
-// Custom styles goes here
-body {
-  padding-top: 50px;
-}
+/*------------------------------------------------------------------
+Project:        Politis
+Author:         Jérôme Poslednik
+URL:            http://www.washaweb.com/
+                https://twitter.com/washaweb
+Version:        1.0
+Created:        29/12/2015
+Last change:    29/12/2015
+-------------------------------------------------------------------*/
+
+//-- bootstrap
+@import "../../node_modules/bootstrap/less/bootstrap.less";
+@import "app/mixins.less";      //custom mixins
+@import "variables.less";   //custom variables
+
+//-- layout
+@import "app/helpers.less";
+@import "app/layout.less";
+@import "app/header.less";
+@import "app/footer.less";
+@import "app/navbar.less";
+
+
+//-- components
+@import "app/buttons.less";
+@import "app/carousel.less";
+@import "app/forms.less";
+
+//-- text styles
+@import "app/typography.less";
